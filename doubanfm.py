@@ -59,7 +59,7 @@ Channel List:
 	    songLength = song['length']
             print 'Now playing: ' + songTitle + ' (' + songArtist + ')'
             self.player = subprocess.Popen(['mpg123',songURL],stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-	    starttime = time.timt()
+	    starttime = time.time()
 	    while True:
                 ctl = self.control()
                 endtime = time.time()
@@ -69,6 +69,7 @@ Channel List:
                    break
 		elif ctl == 'c':
 		   hasChangedChannel = True
+                   self.player.kill()
 		   break
 	        elif ctl == 'e':
 		   self.player.kill()
