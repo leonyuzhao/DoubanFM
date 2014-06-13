@@ -42,7 +42,7 @@ Channel List:
 	self.songList = json.loads(httpConnection.getresponse().read())['song']
 
     def control(self):
-        rlist,_,_ = select.select([sys.stdin], [], [])
+        rlist,_,_ = select.select([sys.stdin], [], [], 1)
         if rlist:
            s = sys.stdin.readline()
            return s[0]
@@ -64,7 +64,7 @@ Channel List:
                 ctl = self.control()
                 endtime = time.time()
                 elapsetime = endtime - starttime
-                if ctl == 'n' or elapsetime > songLength:
+                if ctl == 'n' or elapsetime >= songLength:
 		   self.player.kill()
                    break
 		elif ctl == 'c':
@@ -74,7 +74,7 @@ Channel List:
 	        elif ctl == 'e':
 		   self.player.kill()
                    sys.exit()
-		else:
+		elif ctl:
 		   print 'Invalid command'
 		   self.printHelp()
 	    if hasChangedChannel:
